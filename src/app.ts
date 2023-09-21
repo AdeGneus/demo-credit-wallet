@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import config from "config";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
@@ -6,6 +6,10 @@ import rateLimit from "express-rate-limit";
 import compression from "compression";
 import helmet from "helmet";
 import cors from "cors";
+
+import appErrorHandler from "./middlewares/errorHandler";
+import router from "./routes/index";
+import { NotFoundError } from "./exceptions/notFoundError";
 
 const app = express();
 
@@ -44,5 +48,15 @@ app.use(cookieParser());
 
 // Compress all routes using gzip/deflate
 app.use(compression());
+
+// Routes
+app.use("/" + config.get<string>("prefix"), router);
+
+app.use("*", (req: Request, res: Response, next: NextFunction) => {
+  next(new NotFoundError(`Can't find ${req.originalUrl} on this server!`));
+});
+
+// Global error handler
+app.use(appErrorHandler);
 
 export default app;
