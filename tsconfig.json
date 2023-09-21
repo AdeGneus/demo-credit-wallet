@@ -108,5 +108,11 @@
   },
   "types": ["node", "ts-node"],
 
-  "include": ["src", "index.ts", "config", "node_modules/ts-node/**/*"]
+  "include": [
+    "src",
+    "index.ts",
+    "config",
+    "node_modules/ts-node/**/*",
+    "src/db/knexfile.ts"
+  ]
 }

@@ -1,4 +1,5 @@
 import type { Knex } from "knex";
+import "dotenv/config";
 import config from "config";
 
 const knexConfig: { [key: string]: Knex.Config } = {
@@ -11,7 +12,7 @@ const knexConfig: { [key: string]: Knex.Config } = {
       database: config.get<string>("DB_NAME"),
     },
     migrations: {
-      directory: "./db/migrations",
+      directory: "./migrations",
       extension: "ts",
     },
   },
