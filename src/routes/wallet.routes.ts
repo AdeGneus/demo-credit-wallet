@@ -8,5 +8,6 @@ const router = Router();
 router.use(deserializeUser);
 
 router.post("/fund", WalletController.fund);
+router.post("/transfer", WalletController.transfer);
 
 export default router;

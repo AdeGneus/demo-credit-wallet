@@ -37,6 +37,22 @@ class WalletService {
       .where("user_id", userId)
       .increment("balance", amount);
   };
+
+  static transferFunds = async (
+    senderId: number,
+    recipientId: number,
+    amount: number
+  ) => {
+    await db.transaction(async (trx) => {
+      await trx("wallets")
+        .where("user_id", senderId)
+        .decrement("balance", amount);
+
+      await trx("wallets")
+        .where("user_id", recipientId)
+        .increment("balance", amount);
+    });
+  };
 }
 
 export default WalletService;
