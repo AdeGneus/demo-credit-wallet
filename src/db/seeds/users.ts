@@ -12,7 +12,8 @@ export const seed = async (knex: Knex): Promise<void> => {
       last_name: "Doe",
       email: "johndoe@example.com",
       password: "test1234",
-      account_number: 1,
+      account_number: "8723672782",
+      balance: 2599.99,
     },
     {
       id: 2,
@@ -20,7 +21,8 @@ export const seed = async (knex: Knex): Promise<void> => {
       last_name: "Smith",
       email: "janesmith@example.com",
       password: "test1234",
-      account_number: 2,
+      account_number: "9877452619",
+      balance: 1899.48,
     },
     {
       id: 3,
@@ -28,7 +30,8 @@ export const seed = async (knex: Knex): Promise<void> => {
       last_name: "Ipsum",
       email: "loremipsum@example.com",
       password: "test1234",
-      account_number: 3,
+      account_number: "3748570220",
+      balance: 0.0,
     },
   ]);
 };
