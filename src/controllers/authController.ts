@@ -95,6 +95,15 @@ class AuthController {
       createSendToken(await getUserDetails(user.id), 200, req, res);
     }
   );
+
+  static logout = (req: Request, res: Response) => {
+    res.cookie("jwt", "loggedOut", {
+      expires: new Date(Date.now() + 10 * 1000),
+    });
+    res.status(200).json({
+      status: "success",
+    });
+  };
 }
 
 export default AuthController;
