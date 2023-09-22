@@ -4,8 +4,8 @@ import argon2 from "argon2";
 import asyncHandler from "../middlewares/asyncHandler";
 import db from "../db/db";
 import { ConflictError } from "../exceptions/conflictError";
-import generateAccountNumber from "../utils/generateAccountNumber";
 import UserService from "../services/user";
+import WalletService from "../services/wallet";
 import { signToken } from "../utils/jwt";
 import { ClientError } from "../exceptions/clientError";
 import { isCorrectPassword } from "../utils/checkPassword";
@@ -67,11 +67,15 @@ class AuthController {
         last_name: lastName,
         email,
         password: hashedPassword,
-        account_number: generateAccountNumber(),
       };
       const newUser = await UserService.createUser(userDetails);
 
-      createSendToken(newUser, 201, req, res);
+      // Create new wallet for the user
+      const newWallet = await WalletService.createWallet(newUser.id);
+
+      const user = { ...newUser, ...newWallet };
+
+      createSendToken(user, 201, req, res);
     }
   );
 
