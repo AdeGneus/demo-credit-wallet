@@ -7,6 +7,10 @@ import { ConflictError } from "../exceptions/conflictError";
 import generateAccountNumber from "../utils/generateAccountNumber";
 import UserService from "../services/user";
 import { signToken } from "../utils/jwt";
+import { ClientError } from "../exceptions/clientError";
+import { isCorrectPassword } from "../utils/checkPassword";
+import { UnauthorizedError } from "../exceptions/unauthorizedError";
+import { getUserDetails } from "../services/user";
 
 const createSendToken = (
   user: Object,
@@ -66,8 +70,29 @@ class AuthController {
         account_number: generateAccountNumber(),
       };
       const newUser = await UserService.createUser(userDetails);
-      
-      createSendToken(newUser, 201, req, res)
+
+      createSendToken(newUser, 201, req, res);
+    }
+  );
+
+  static login = asyncHandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const { email, password } = req.body;
+
+      // Check if email and password exists
+      if (!email || !password) {
+        return next(new ClientError("Please provide email and password!"));
+      }
+
+      // Check if user exists and password is correct
+      const user = await UserService.checkUser(email);
+
+      if (!user || !(await isCorrectPassword(user.password, password))) {
+        return next(new UnauthorizedError("Incorrect email or password"));
+      }
+
+      // if everything is okay, send token to client
+      createSendToken(await getUserDetails(user.id), 200, req, res);
     }
   );
 }

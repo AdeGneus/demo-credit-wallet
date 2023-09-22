@@ -3,6 +3,18 @@ import config from "config";
 import { AppError, IResponseError } from "../exceptions/appError";
 import log from "../utils/logger";
 
+const handleValidationErrorDB = (err: any) => {
+  const message = "Please enter missing fields!";
+
+  return new AppError(message, 400);
+};
+
+const handleJWTError = (err: any) =>
+  new AppError(`${err.message}!. Please log in again`, 401);
+
+const handleJWTExpiredError = () =>
+  new AppError("Your token has expired! Please log in again", 401);
+
 export const sendErrorDev = (err: any, req: Request, res: Response) => {
   if (req.originalUrl.startsWith("/api")) {
     return res.status(err.statusCode).json({
@@ -52,6 +64,11 @@ const errorHandler = (
   if (env === "development") {
     sendErrorDev(err, req, res);
   } else if (env === "production") {
+    if (err.code === "ER_NO_DEFAULT_FOR_FIELD")
+      err = handleValidationErrorDB(err);
+    if (err.name === "JsonWebTokenError") err = handleJWTError(err);
+    if (err.name === "TokenExpiredError") err = handleJWTExpiredError();
+
     sendErrorProd(err, req, res);
   }
 };
