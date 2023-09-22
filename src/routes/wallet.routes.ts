@@ -9,5 +9,6 @@ router.use(deserializeUser);
 
 router.post("/fund", WalletController.fund);
 router.post("/transfer", WalletController.transfer);
+router.post("/withdraw", WalletController.withdraw);
 
 export default router;

@@ -42,7 +42,7 @@ class WalletService {
     senderId: number,
     recipientId: number,
     amount: number
-  ) => {
+  ): Promise<void> => {
     await db.transaction(async (trx) => {
       await trx("wallets")
         .where("user_id", senderId)
@@ -52,6 +52,16 @@ class WalletService {
         .where("user_id", recipientId)
         .increment("balance", amount);
     });
+  };
+
+  static withdrawFunds = async (
+    userId: number,
+    amount: number
+  ): Promise<void> => {
+    await db
+      .from("wallets")
+      .where("user_id", userId)
+      .decrement("balance", amount);
   };
 }
 

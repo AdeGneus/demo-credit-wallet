@@ -21,7 +21,7 @@ class WalletController {
 
       return res.status(200).json({
         status: "success",
-        message: "Wallet credited successfully",
+        message: "Wallet credited successfully!",
       });
     }
   );
@@ -42,7 +42,7 @@ class WalletController {
       const recipient = await db.from("users").where("id", userId).first();
 
       if (!recipient) {
-        return next(new NotFoundError("The recipient does not exist"));
+        return next(new NotFoundError("The recipient does not exist!"));
       }
 
       // Check if sender has enough balance to transfer
@@ -52,14 +52,43 @@ class WalletController {
         .first();
 
       if (!senderWallet || senderWallet.balance < amount) {
-        return next(new ClientError("Insufficient balance"));
+        return next(new ClientError("Insufficient balance!"));
       }
 
       await WalletService.transferFunds(userId, recipientId, amount);
 
       return res.status(200).json({
         status: "success",
-        message: "Funds transferred successfully",
+        message: "Funds transferred successfully!",
+      });
+    }
+  );
+
+  static withdraw = asyncHandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const { amount } = req.body;
+      const user = (req as CustomRequest).user;
+      const userId = user!.id;
+
+      if (!amount || amount < 0) {
+        return next(new ClientError("Amount is too low!"));
+      }
+
+      // Check if user has enough balance to transfer
+      const userWallet = await db
+        .from("wallets")
+        .where("user_id", userId)
+        .first();
+
+      if (!userWallet || userWallet.balance < amount) {
+        return next(new ClientError("Insufficient balance!"));
+      }
+
+      await WalletService.withdrawFunds(userId, amount);
+
+      return res.status(200).json({
+        status: "success",
+        message: "Funds withdrawn successfully!",
       });
     }
   );
