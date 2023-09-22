@@ -4,13 +4,13 @@ import argon2 from "argon2";
 import asyncHandler from "../middlewares/asyncHandler";
 import db from "../db/db";
 import { ConflictError } from "../exceptions/conflictError";
-import UserService from "../services/user";
-import WalletService from "../services/wallet";
+import UserService from "../services/user.service";
+import WalletService from "../services/wallet.service";
 import { signToken } from "../utils/jwt";
 import { ClientError } from "../exceptions/clientError";
 import { isCorrectPassword } from "../utils/checkPassword";
 import { UnauthorizedError } from "../exceptions/unauthorizedError";
-import { getUserDetails } from "../services/user";
+import { getUserDetails } from "../services/user.service";
 
 const createSendToken = (
   user: Object,

@@ -8,7 +8,7 @@ import helmet from "helmet";
 import cors from "cors";
 
 import appErrorHandler from "./middlewares/errorHandler";
-import router from "./routes/index";
+import router from "./routes/index.routes";
 import { NotFoundError } from "./exceptions/notFoundError";
 
 const app = express();

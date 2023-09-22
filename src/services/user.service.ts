@@ -1,6 +1,6 @@
 import db from "../db/db";
 
-interface User {
+export interface User {
   id: number;
   first_name: string;
   last_name: string;
@@ -13,7 +13,12 @@ export const getUserDetails = async (id: number): Promise<User> => {
     .from("users")
     .where("id", id);
 
-  return { id, ...userDetails[0] };
+  const walletDetails = await db
+    .select("account_number", "balance")
+    .from("wallets")
+    .where("user_id", id);
+
+  return { id, ...userDetails[0], ...walletDetails[0] };
 };
 
 class UserService {

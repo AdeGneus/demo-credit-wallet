@@ -30,6 +30,13 @@ class WalletService {
 
     return walletDetails;
   };
+
+  static fundWallet = async (userId: number, amount: number): Promise<void> => {
+    await db
+      .from("wallets")
+      .where("user_id", userId)
+      .increment("balance", amount);
+  };
 }
 
 export default WalletService;

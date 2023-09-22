@@ -6,3 +6,5 @@ export const isCorrectPassword = async (
 ): Promise<boolean> => {
   return await verify(userPassword, candidatePassword);
 };
+
+export const changedPasswordAfterTokenIssued = () => {};
