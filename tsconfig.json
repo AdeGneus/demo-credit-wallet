@@ -113,6 +113,6 @@
     "index.ts",
     "config",
     "node_modules/ts-node/**/*",
-    "src/db/knexfile.ts"
+    "knexfile.ts"
   ]
 }
