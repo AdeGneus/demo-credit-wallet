@@ -12,7 +12,21 @@ const knexConfig: { [key: string]: Knex.Config } = {
       database: config.get<string>("DB_NAME"),
     },
     migrations: {
-      directory: "./migrations",
+      directory: "./src/db/migrations",
+      extension: "ts",
+    },
+  },
+
+  production: {
+    client: "mysql",
+    connection: {
+      host: config.get<string>("DB_PROD_HOST"),
+      user: config.get<string>("DB_PROD_USER"),
+      password: config.get<string>("DB_PROD_PASSWORD"),
+      database: config.get<string>("DB_NAME"),
+    },
+    migrations: {
+      directory: "./src/db/migrations",
       extension: "ts",
     },
   },
