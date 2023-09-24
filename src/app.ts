@@ -13,7 +13,7 @@ import { NotFoundError } from "./exceptions/notFoundError";
 
 const app = express();
 
-// app.enable("trust proxy");
+app.enable("trust proxy");
 
 // Reduce fingerprinting
 app.disable("x-powered-by");

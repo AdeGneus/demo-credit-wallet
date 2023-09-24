@@ -15,7 +15,7 @@ const errorHandler_1 = __importDefault(require("./middlewares/errorHandler"));
 const index_routes_1 = __importDefault(require("./routes/index.routes"));
 const notFoundError_1 = require("./exceptions/notFoundError");
 const app = (0, express_1.default)();
-// app.enable("trust proxy");
+app.enable("trust proxy");
 // Reduce fingerprinting
 app.disable("x-powered-by");
 // Implement CORS
