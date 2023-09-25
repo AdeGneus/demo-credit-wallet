@@ -30,6 +30,20 @@ const knexConfig: { [key: string]: Knex.Config } = {
       extension: "ts",
     },
   },
+
+  test: {
+    client: "mysql",
+    connection: {
+      host: "my-host",
+      user: "my-user",
+      password: "my-password",
+      database: "my-db",
+    },
+    migrations: {
+      directory: "./src/db/migrations",
+      extension: "ts",
+    },
+  },
 };
 
 export default knexConfig;

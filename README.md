@@ -86,6 +86,10 @@ demo-credit-wallet/
 - Tokens are used for authenticating users. They are base64 2048 bit encoded to ensure secure authentication
 - Some further security measures like checking if a user recently changed password before logging in to prevent against breach of access can be implemented as this is an MVP
 
+## Test
+
+The test suite was setup using Jest, Supertest and ts-test
+
 ## Deployment
 
 The current API is deployed [here](https://wasiu-bakare-lendsqr-be-test.onrender.com)

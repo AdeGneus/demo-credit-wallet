@@ -9,7 +9,10 @@
     "migrate": "knex migrate:latest",
     "rollback": "knex migrate:rollback",
     "seed": "knex seed:run",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest --watch --detectOpenHandles",
+    "migrate:test": "NODE_ENV=test knex migrate:latest",
+    "rollback:test": "NODE_ENV=test knex migrate:rollback"
   },
   "keywords": [],
   "author": "",
